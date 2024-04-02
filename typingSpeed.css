@@ -1,0 +1,29 @@
+.card {
+    background: #52ce90;
+    color: #fff;
+}
+
+.card1 {
+    background: #527dce;
+    color: #fff;
+    width: 1820px;
+    margin-left: 50px;
+}
+
+.card2 {
+    background: #52ce90;
+    color: #fff;
+    width: 230px;
+    margin-left: 817px;
+    font-size: 25px;
+}
+
+.input {
+    width: 1820px;
+    margin-left: 50px;
+}
+
+.winner {
+    margin-left: 865px;
+    font-size: 25px;
+}
