@@ -1,5 +1,5 @@
 .card {
-    background: #52ce90;
+    background: #236681;
     color: #fff;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .card2 {
-    background: #52ce90;
+    background: #236681;
     color: #fff;
     width: 230px;
     margin-left: 817px;
@@ -23,7 +23,21 @@
     margin-left: 50px;
 }
 
+.finished {
+    width: 500px;
+    margin-left: 720px;
+    font-size: 25px;   
+}
+
 .winner {
     margin-left: 865px;
     font-size: 25px;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
 }
