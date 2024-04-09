@@ -5,6 +5,8 @@ let seconds = 0;
 let correctWord = 0;
 let spans = [];
 let spaceCounter = 0;
+let restartButton = document.getElementById("startTest");
+let gameCounter = 0;
 
 function showText() {
     let container = document.getElementById("container");
@@ -31,6 +33,7 @@ function showText() {
     container2.appendChild(textarea);
 
     setInterval(verifyWords, 1);
+    ++gameCounter;
 }
 
 function verifyWords() {
@@ -54,8 +57,9 @@ function incrementSeconds() {
         let inputText = document.getElementById("input").value;
         let colorCounter = 1;
         for (let i = 0; i < inputText.length; i++) {
-            if (container.children[i].classList === "red") {
+            if (container.children[i].classList.contains("red")) {
                 colorCounter = 0;
+                console.log(colorCounter);
             }
             if (spans[i + 1].textContent === "," || spans[i + 1].textContent === ".") {
                 i += 2;
@@ -77,5 +81,18 @@ function incrementSeconds() {
         el3.innerHTML = 'Finished test. You have ' + correctWord + ' correct words!';
         document.getElementById("container2").appendChild(el3);
         document.getElementById('input').disabled = true;
+    }
+}
+
+function startRestartGame() {
+    if (gameCounter > 0) {
+        let container = document.getElementById("container");
+        let container2 = document.getElementById("container2");
+        seconds = 0;
+        correctWord = 0;
+        spans = [];
+        spaceCounter = 0;
+        container.innerHTML = '';
+        container2.innerHTML = '';
     }
 }
