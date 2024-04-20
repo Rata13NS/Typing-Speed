@@ -41,3 +41,9 @@
 .red {
     color: red;
 }
+
+#poza {
+    height: 140px;
+    width: 400px;
+    float: right;
+}
