@@ -8,7 +8,7 @@ let spans = [];
 let spaceCounter = 0;
 let restartButton = document.getElementById("startTest");
 let gameCounter = 0;
-
+let extraWords = 0;
 function showText() {
     if (gameCounter === 0) {
         setInterval(incrementSeconds, 1000); 
@@ -55,12 +55,18 @@ function verifyWords() {
     let inputText = document.getElementById("input").value;
     let container = document.getElementById("container");
 
+    extraWords = 0;
     let w = 0;
     let maxInputSize = inputText.length;
     for (let i = 0; i < maxInputSize; ++i) {
         if (inputText[w] === ' ') {
+            let extraWordsCounter = 0;
             for (let j = w + 1; j < inputText.length; ++j) {
                 if (inputText[j] === ' ') {
+                    if (extraWordsCounter === 0) {
+                        ++extraWords;
+                    }
+                    ++extraWordsCounter
                     ++w;
                     --maxInputSize;
                 } else {
@@ -105,9 +111,10 @@ function incrementSeconds() {
         let el3 = document.createElement("div");
         el3.className = "finished";
         el3.id = "finished";
-        el3.innerHTML = 'Finished test. You have ' + correctWord + ' correct words!';
+        el3.innerHTML = 'Finished test. You have ' + (correctWord - extraWords) + ' correct words!';
         document.getElementById("container2").appendChild(el3);
         document.getElementById('input').disabled = true;
+        console.log(extraWords);
     }
 }
 
