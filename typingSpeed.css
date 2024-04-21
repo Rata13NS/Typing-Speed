@@ -18,6 +18,11 @@
     font-size: 25px;
 }
 
+#container {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 .input {
     width: 1820px;
     margin-left: 50px;
