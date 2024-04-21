@@ -56,16 +56,14 @@ function verifyWords() {
     let container = document.getElementById("container");
 
     let w = 0;
+    let spaceCounter = 0;
     let maxInputSize = inputText.length;
     for (let i = 0; i < maxInputSize; ++i) {
         if (inputText[w] === ' ') {
-            for (let j = w + 1; j < inputText.length; ++j) {
-                if (inputText[j] === ' ') {
-                    ++w;
-                    --maxInputSize;
-                } else {
-                    j = inputText.lenght;
-                }
+            while (inputText[w + 1] === ' ') {
+                ++w;
+                ++spaceCounter;
+                --maxInputSize;
             }
         }
         if (inputText[w] === text[i]) {
@@ -77,31 +75,31 @@ function verifyWords() {
         }
         ++w;
     }
+
+    for (let i = inputText.length; i < text.length; i++) {
+        if (container.children[i - spaceCounter].classList.contains("red")) {
+            container.children[i - spaceCounter].classList.remove("red");
+        } else if (container.children[i - spaceCounter].classList.contains("green")) {
+            container.children[i - spaceCounter].classList.remove("green");
+        } else {
+            i = text.length;
+        }
+    }
 }
 
 function incrementSeconds() {
     ++seconds;
     if (seconds === 15) {
         let inputText = document.getElementById("input").value;
-        let colorCounter = 1;
-        for (let i = 0; i < inputText.length; i++) {
-            if (container.children[i].classList.contains("red")) {
-                colorCounter = 0;
-            }
-            if (spans[i + 1].textContent === "," || spans[i + 1].textContent === ".") {
-                i += 2;
-                if (colorCounter === 1) {
-                    ++correctWord;
-                }
-                colorCounter = 1;
-            } else if (spans[i + 1].textContent === " ") {
-                ++i;
-                if (colorCounter === 1) {
-                    ++correctWord;
-                }
-                colorCounter = 1;
+        let inputWords = inputText.split(/\s+/);
+        let originalWords = text.split(/\s+/);
+
+        for (let i = 0; i < inputWords.length; i++) {
+            if (inputWords[i] === originalWords[i]) {
+                ++correctWord;
             }
         }
+
         let el3 = document.createElement("div");
         el3.className = "finished";
         el3.id = "finished";
