@@ -2,32 +2,36 @@ let text1 = "In the ever expanding expanse of human existence, we find ourselves
 let text2 = "In the labyrinth of existence, we navigate the twists and turns of fate, each decision shaping the course of our journey. From the cradle to the grave, we are bound by the tapestry of time, our lives intertwined with those around us. Through love and loss, triumph and defeat, we forge our path with resilience and determination. Amidst the chaos of the world, we seek moments of clarity and connection, finding solace in the beauty of nature and the warmth of human companionship. In the embrace of loved ones, we find refuge from the storms of life, drawing strength from the bonds that unite us. Yet, even in our darkest hours, hope flickers like a candle in the night, guiding us towards a brighter tomorrow. With each sunrise, we are reminded of the endless possibilities that await us, beckoning us to seize the day and embrace the unknown. As we journey through the vast expanse of existence, let us cherish each moment as a precious gift, savoring the beauty of the world and the richness of human experience. For in the tapestry of life, every thread is sacred, every encounter a chance for growth and enlightenment."
 let text3 = "In the symphony of life, each soul contributes a unique melody, weaving together harmonies that resonate through the ages. From the first breath of infancy to the final whisper of old age, our existence is a testament to the power of creation and the beauty of expression.As we journey through the passage of time, we encounter trials and tribulations that test our resolve and challenge our perceptions. Yet, it is in the face of adversity that we discover the depths of our strength and the resilience of the human spirit.Across cultures and continents, we are united by a common thread – the universal quest for meaning and purpose. Whether through art or science, religion or philosophy, we seek to unravel the mysteries of existence and understand our place in the cosmos.And though our paths may diverge and our destinies unfold in different ways, we are bound together by the shared experience of being alive. In moments of joy and sorrow, triumph and defeat, we find solidarity in our humanity, knowing that we are never truly alone.So let us embrace the journey with open hearts and open minds, embracing the unknown with courage and curiosity. For in the tapestry of life, every thread is a story waiting to be told, every note a melody waiting to be sung."
 let text;
-let seconds = 0;
+let secondsPassed = 0;
 let correctWord = 0;
 let spans = [];
 let spaceCounter = 0;
-let restartButton = document.getElementById("startTest");
-let gameCounter = 0;
+let roundCounter = 0;
+const firstRound = 0;
+const secoundRound = 1;
+const thirdRound = 2;
+const textAreaRows = 5;
+const gameSeconds = 60;
 
 function showText() {
-    if (gameCounter === 0) {
+    if (roundCounter === 0) {
         setInterval(incrementSeconds, 1000); 
     }
 
     let container = document.getElementById("container");
     let container2 = document.getElementById("container2");
 
-    if (gameCounter === 0) {
+    if (roundCounter === firstRound) {
         text = text1;
-    } else if (gameCounter === 1) {
+    } else if (roundCounter === secoundRound) {
         text = text2;
-    } else if (gameCounter === 2) {
+    } else if (roundCounter === thirdRound) {
         text = text3;
     } else {
         text = text1;
     }
 
-    for (let i = 0; i < text.length; i++) {
+    for (let i = 0; i < text.length; ++i) {
         let span = document.createElement("span");
         span.textContent = text[i];
         span.style.fontWeight = 'bold';
@@ -44,39 +48,39 @@ function showText() {
     let textarea = document.createElement("textarea");
     textarea.className = "input"; 
     textarea.id = "input";
-    textarea.rows = 5;
+    textarea.rows = textAreaRows;
     container2.appendChild(textarea);
 
     setInterval(verifyWords, 1);
-    ++gameCounter;
+    ++roundCounter;
 }
 
 function verifyWords() {
     let inputText = document.getElementById("input").value;
     let container = document.getElementById("container");
 
-    let w = 0;
+    let validLetter = 0;
     let spaceCounter = 0;
     let maxInputSize = inputText.length;
     for (let i = 0; i < maxInputSize; ++i) {
-        if (inputText[w] === ' ') {
-            while (inputText[w + 1] === ' ') {
-                ++w;
+        if (inputText[validLetter] === ' ') {
+            while (inputText[validLetter + 1] === ' ') {
+                ++validLetter;
                 ++spaceCounter;
                 --maxInputSize;
             }
         }
-        if (inputText[w] === text[i]) {
+        if (inputText[validLetter] === text[i]) {
             container.children[i].classList.remove("red");
             container.children[i].classList.add("green");
         } else {
             container.children[i].classList.remove("green");
             container.children[i].classList.add("red");
         }
-        ++w;
+        ++validLetter;
     }
 
-    for (let i = inputText.length; i < text.length; i++) {
+    for (let i = inputText.length; i < text.length; ++i) {
         if (container.children[i - spaceCounter].classList.contains("red")) {
             container.children[i - spaceCounter].classList.remove("red");
         } else if (container.children[i - spaceCounter].classList.contains("green")) {
@@ -88,13 +92,13 @@ function verifyWords() {
 }
 
 function incrementSeconds() {
-    ++seconds;
-    if (seconds === 15) {
+    ++secondsPassed;
+    if (secondsPassed === gameSeconds) {
         let inputText = document.getElementById("input").value;
         let inputWords = inputText.split(/\s+/);
         let originalWords = text.split(/\s+/);
 
-        for (let i = 0; i < inputWords.length; i++) {
+        for (let i = 0; i < inputWords.length; ++i) {
             if (inputWords[i] === originalWords[i]) {
                 ++correctWord;
             }
@@ -110,12 +114,12 @@ function incrementSeconds() {
 }
 
 function startRestartGame() {
-    if (gameCounter > 0) {
+    if (roundCounter > 0) {
         let container = document.getElementById("container");
         let container2 = document.getElementById("container2");
-        seconds = 0;
-        correctWord = 0;
         spans = [];
+        secondsPassed = 0;
+        correctWord = 0;
         spaceCounter = 0;
         container.innerHTML = '';
         container2.innerHTML = '';
