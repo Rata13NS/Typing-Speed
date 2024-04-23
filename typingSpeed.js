@@ -4,7 +4,7 @@ let text3 = "In the symphony of life, each soul contributes a unique melody, wea
 let text;
 let secondsPassed = 0;
 let correctWord = 0;
-let spans = [];
+let userLettersSpans = [];
 let spaceCounter = 0;
 let roundCounter = 0;
 const firstRound = 0;
@@ -18,8 +18,8 @@ function showText() {
         setInterval(incrementSeconds, 1000); 
     }
 
-    let container = document.getElementById("container");
-    let container2 = document.getElementById("container2");
+    let initialTextContainer = document.getElementById("container1");
+    let userTextContainer = document.getElementById("container2");
 
     if (roundCounter === firstRound) {
         text = text1;
@@ -32,24 +32,24 @@ function showText() {
     }
 
     for (let i = 0; i < text.length; ++i) {
-        let span = document.createElement("span");
-        span.textContent = text[i];
-        span.style.fontWeight = 'bold';
-        container.appendChild(span);
-        spans.push(span);
+        let userLetterSpan = document.createElement("span");
+        userLetterSpan.textContent = text[i];
+        userLetterSpan.style.fontWeight = 'bold';
+        initialTextContainer.appendChild(span);
+        userLettersSpans.push(userLetterSpan);
     }
 
-    let el2 = document.createElement("div");
-    el2.className = "card2";
-    el2.id = "card2";
-    el2.innerHTML = 'Write the text below:';
-    container2.appendChild(el2);
+    let indicationMessage = document.createElement("div");
+    indicationMessage.className = "card2";
+    indicationMessage.id = "card2";
+    indicationMessage.innerHTML = 'Write the text below:';
+    userTextContainer.appendChild(indicationMessage);
 
     let textarea = document.createElement("textarea");
     textarea.className = "input"; 
     textarea.id = "input";
     textarea.rows = textAreaRows;
-    container2.appendChild(textarea);
+    userTextContainer.appendChild(textarea);
 
     setInterval(verifyWords, 1);
     ++roundCounter;
@@ -57,7 +57,7 @@ function showText() {
 
 function verifyWords() {
     let inputText = document.getElementById("input").value;
-    let container = document.getElementById("container");
+    let initialTextContainer = document.getElementById("container1");
 
     let validLetter = 0;
     let spaceCounter = 0;
@@ -71,20 +71,20 @@ function verifyWords() {
             }
         }
         if (inputText[validLetter] === text[i]) {
-            container.children[i].classList.remove("red");
-            container.children[i].classList.add("green");
+            initialTextContainer.children[i].classList.remove("red");
+            initialTextContainer.children[i].classList.add("green");
         } else {
-            container.children[i].classList.remove("green");
-            container.children[i].classList.add("red");
+            initialTextContainer.children[i].classList.remove("green");
+            initialTextContainer.children[i].classList.add("red");
         }
         ++validLetter;
     }
 
     for (let i = inputText.length; i < text.length; ++i) {
-        if (container.children[i - spaceCounter].classList.contains("red")) {
-            container.children[i - spaceCounter].classList.remove("red");
-        } else if (container.children[i - spaceCounter].classList.contains("green")) {
-            container.children[i - spaceCounter].classList.remove("green");
+        if (initialTextContainer.children[i - spaceCounter].classList.contains("red")) {
+            initialTextContainer.children[i - spaceCounter].classList.remove("red");
+        } else if (initialTextContainer.children[i - spaceCounter].classList.contains("green")) {
+            initialTextContainer.children[i - spaceCounter].classList.remove("green");
         } else {
             i = text.length;
         }
@@ -104,24 +104,24 @@ function incrementSeconds() {
             }
         }
 
-        let el3 = document.createElement("div");
-        el3.className = "finished";
-        el3.id = "finished";
-        el3.innerHTML = 'Finished test. You have ' + correctWord + ' correct words!';
-        document.getElementById("container2").appendChild(el3);
+        let endMessage = document.createElement("div");
+        endMessage.className = "finished";
+        endMessage.id = "finished";
+        endMessage.innerHTML = 'Finished test. You have ' + correctWord + ' correct words!';
+        document.getElementById("container2").appendChild(endMessage);
         document.getElementById('input').disabled = true;
     }
 }
 
 function startRestartGame() {
     if (roundCounter > 0) {
-        let container = document.getElementById("container");
-        let container2 = document.getElementById("container2");
-        spans = [];
+        let initialTextContainer = document.getElementById("container1");
+        let userTextContainer = document.getElementById("container2");
+        userLettersSpans = [];
         secondsPassed = 0;
         correctWord = 0;
         spaceCounter = 0;
-        container.innerHTML = '';
-        container2.innerHTML = '';
+        initialTextContainer.innerHTML = '';
+        userTextContainer.innerHTML = '';
     }
 }
